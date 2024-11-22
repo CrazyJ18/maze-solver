@@ -22,9 +22,9 @@ class Line():
 class Window():
     def __init__(self, width, height):
         self.root = Tk()
-        self.root.title = "Maze"
-        self.canvas = Canvas(width=width, height=height)
-        self.canvas.pack()
+        self.root.title("Maze Solver")
+        self.canvas = Canvas(self.root, width=width, height=height)
+        self.canvas.pack(fill=BOTH, expand=1)
         self.running = False
         self.root.protocol("WM_DELETE_WINDOW", self.close)
     
