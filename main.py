@@ -44,12 +44,57 @@ class Window():
         line.draw(self.canvas, fill_color)
 
 
+class Cell():
+    def __init__(self, x1, x2, y1, y2, win: Window):
+        self.has_left_wall = True
+        self.has_right_wall = True
+        self.has_top_wall = True
+        self.has_bottom_wall = True
+        self._x1 = x1
+        self._x2 = x2
+        self._y1 = y1
+        self._y2 = y2
+        self._win = win
+    
+    def draw(self, fill_color):
+        if self.has_left_wall:
+            self._win.draw_line(
+                Line(Point(self._x1, self._y1), Point(self._x1, self._y2)),
+                fill_color
+                )
+        if self.has_top_wall:
+            self._win.draw_line(
+                Line(Point(self._x1, self._y1), Point(self._x2, self._y1)),
+                fill_color
+                )
+        if self.has_right_wall:
+            self._win.draw_line(
+                Line(Point(self._x2, self._y1), Point(self._x2, self._y2)),
+                fill_color
+                )
+        if self.has_bottom_wall:
+            self._win.draw_line(
+                Line(Point(self._x1, self._y2), Point(self._x2, self._y2)),
+                fill_color
+                )
+
+
 def main():
     win = Window(800, 600)
-    start = Point(10, 10)
-    win.draw_line(Line(start, Point(790, 10)), "red")
-    win.draw_line(Line(start, Point(790, 590)), "red")
-    win.draw_line(Line(start, Point(10, 590)), "red")
+    cells: list[Cell] = []
+    for x in range(11, 782, 20):
+        for y in range(11, 582, 20):
+            cells.append(Cell(x, x+17, y, y+17, win))
+    for i in range(len(cells)):
+        if i % 2 == 0:
+            cells[i].has_left_wall = False
+        if i // 2 % 2 == 0:
+            cells[i].has_top_wall = False
+        if i // 4 % 2 == 0:
+            cells[i].has_right_wall = False
+        if i // 8 % 2 == 0:
+            cells[i].has_bottom_wall = False
+        cells[i].draw("black")
     win.wait_for_close()
 
 
