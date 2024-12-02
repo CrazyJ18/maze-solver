@@ -13,27 +13,33 @@ class Cell():
         self._y2 = y2
         self._win = win
     
-    def draw(self, fill_color):
+    def draw(self):
         if self.has_left_wall:
             self._win.draw_line(
-                Line(Point(self._x1, self._y1), Point(self._x1, self._y2)),
-                fill_color
+                Line(Point(self._x1, self._y1), Point(self._x1, self._y2))
                 )
         if self.has_top_wall:
             self._win.draw_line(
-                Line(Point(self._x1, self._y1), Point(self._x2, self._y1)),
-                fill_color
+                Line(Point(self._x1, self._y1), Point(self._x2, self._y1))
                 )
         if self.has_right_wall:
             self._win.draw_line(
-                Line(Point(self._x2, self._y1), Point(self._x2, self._y2)),
-                fill_color
+                Line(Point(self._x2, self._y1), Point(self._x2, self._y2))
                 )
         if self.has_bottom_wall:
             self._win.draw_line(
-                Line(Point(self._x1, self._y2), Point(self._x2, self._y2)),
-                fill_color
+                Line(Point(self._x1, self._y2), Point(self._x2, self._y2))
                 )
     
     def draw_move(self, to_cell, undo=False):
-        raise NotImplementedError
+        start = self._centerpoint()
+        end = to_cell._centerpoint()
+        if undo:
+            self._win.draw_line(Line(start, end), "gray")
+        else:
+            self._win.draw_line(Line(start, end), "red")
+    
+    def _centerpoint(self):
+        center_x = self._x2 - (self._x2 - self._x1) // 2
+        center_y = self._y2 - (self._y2 - self._y1) // 2
+        return Point(center_x, center_y)
