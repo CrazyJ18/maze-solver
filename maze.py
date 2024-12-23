@@ -14,6 +14,8 @@ class Maze():
         self._create_cells()
         if seed is not None:
             random.seed(seed)
+        self._break_entrance_and_exit()
+        self._break_walls_r(0, 0)
     
     def _create_cells(self):
         self._cells = []
